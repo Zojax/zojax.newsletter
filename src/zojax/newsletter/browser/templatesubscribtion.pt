@@ -1,0 +1,9 @@
+<h2>Newsletter: <tal:block content="context/title"/></h2>
+
+You have been subscribed to newsletter.
+
+<br /><br /><br />
+<hr />
+<a tal:attributes="href view/newsletters_prefs_url">
+  Manage your newletter subscriptions
+</a>

@@ -1,0 +1,14 @@
+<div class="z-frame">
+  <tal:block content="structure view/entries/@@pagelet" />
+
+  <div tal:repeat="entry view/entries">
+    <h1 class="z-content-title">
+      <a tal:attributes="href string:${entry/__name__}/context.html"
+	 tal:content="entry/title"></a></h1>
+    <div>
+      <span class="discreet" i18n:translate="">Date:</span>
+      <tal:block content="structure formatter:date,full:entry/date" />
+    </div>
+    <div class="z-page-description" tal:content="entry/description"></div>
+  </div>
+</div>

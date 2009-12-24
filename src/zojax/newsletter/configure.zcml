@@ -1,0 +1,113 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:i18n="http://namespaces.zope.org/i18n"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   i18n_domain="zojax.newsletter">
+
+  <zojax:product
+     name="newsletters"
+     title="Newsletters"
+     description="Simple newsletters for zojax."
+     schema=".interfaces.INewsletterProduct"
+     class=".newsletters.Newsletters"
+     configurable="True">
+
+    <allow interface="zojax.content.type.interfaces.IItem" />
+    <require
+       permission="zojax.ManageProducts"
+       interface="zope.app.container.interfaces.IWriteContainer" />
+    <require
+       permission="zope.View"
+       interface="zope.app.container.interfaces.IReadContainer" />
+  </zojax:product>
+
+  <registerIn registry="zojax.product.newsletters">
+
+    <!-- Newsletters container -->
+    <zojax:content
+       name="content.newsletters"
+       title="Newsletters"
+       schema=".interfaces.INewsletters"
+       class=".newsletters.Newsletters"
+       description="Container for newletters."
+       type="zojax.content.type.interfaces.IInactiveType"
+       contains="content.newsletter" />
+
+    <adapter 
+       for=".interfaces.INewsletters"
+       factory=".newsletters.NewslettersOrder" />
+
+    <!-- Newsletter -->
+    <zojax:content
+       name="content.newsletter"
+       title="Newsletter"
+       schema=".interfaces.INewsletter"
+       class=".newsletter.Newsletter"
+       containers="content.newsletters" 
+       contains="content.newsletterentry" />
+
+    <class class=".newsletter.Newsletter">
+      <implements interface="zojax.subscription.interfaces.ISubscribeable" />
+
+      <require
+	 permission="zope.View"
+	 interface=".interfaces.INewsletter
+		    zope.app.container.interfaces.IReadContainer" />
+
+      <require
+	 permission="zojax.ModifyContent"
+	 set_schema=".interfaces.INewsletter"
+	 interface="zope.app.container.interfaces.IWriteContainer" />
+    </class>
+
+    <adapter factory=".newsletter.NewsletterOrder" />
+
+    <subscriber handler=".newsletter.entryModifiedHandler" />
+
+    <!-- Newsletter Entry -->
+    <zojax:content
+       name="content.newsletterentry"
+       title="Newsletter Entry"
+       schema=".interfaces.INewsletterEntry"
+       class=".entry.NewsletterEntry"
+       containers="content.newsletter" />
+
+    <class class=".entry.NewsletterEntry">
+      <require
+	 permission="zope.View"
+	 interface=".interfaces.INewsletterEntry" />
+
+      <require
+	 permission="zojax.ModifyContent"
+	 set_schema=".interfaces.INewsletterEntry" />
+    </class>
+
+    <!-- newsletter portlet -->
+    <zojax:portlet
+       title="Newsletters"
+       name="portlet.newsletter"
+       schema=".interfaces.INewsletterPortlet"
+       template="browser/portlet.pt"
+       class=".portlet.NewsletterPortlet" />
+
+    <!-- vocabulary -->
+    <utility
+       name="zojax.newsletters"
+       provides="zope.schema.interfaces.IVocabularyFactory"
+       factory=".vocabulary.NewslettersVocabulary" />
+
+    <!-- browser views -->
+    <include package=".browser" />
+
+  </registerIn>
+
+  <!-- preferences -->
+  <zojax:preferenceGroup
+     id="newsletters"
+     title="Newsletters"
+     description="These is the preferences related to portal newsletters."
+     schema=".interfaces.INewslettersPreference"
+     tests=".utils.hasNewsletters
+	    zojax.preferences.utils.isUser" />
+
+</configure>

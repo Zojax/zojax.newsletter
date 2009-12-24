@@ -1,0 +1,11 @@
+<div>
+  <h1>Send this newsletter entry to all subscribers.</h1>
+  <br />
+  <form method="post" tal:attributes="action request/URL">
+    <input type="submit" class="z-form-button" name="form.send" value="Send" />
+  </form>
+</div>
+<br /><br />
+
+<div class="z-form-standard z-form-fieldset"
+     tal:content="structure view/@@pagelet/form.view" />

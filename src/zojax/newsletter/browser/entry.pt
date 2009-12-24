@@ -1,0 +1,26 @@
+<h1 class="z-content-title" tal:content="context/title"></h1>
+<div>
+  <span class="discreet" i18n:translate="">Date:</span>
+  <tal:block content="structure formatter:date,full:context/date" />
+</div>
+<div class="z-page-description" tal:content="context/description"></div>
+<br />
+
+<div>
+  <h2>HTML Version</h2>
+
+  <div tal:condition="context/html" 
+       tal:content="structure context/html/cooked"></div>
+
+  <div tal:condition="not:context/html">
+    There is no html version of newsletter.
+  </div>
+</div>
+<br /><br />
+
+<div>
+  <h2>Plain text</h2>
+
+  <pre tal:content="context/plain">
+  </pre>
+</div>

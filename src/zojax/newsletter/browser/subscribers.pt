@@ -1,0 +1,40 @@
+<tal:block tal:define="subscribers view/listSubscribers"
+	   i18n:domain="zojax.newsletter">
+  <h1 i18n:translate="">Subscribers</h1>
+  <div class="z-page-description" i18n:translate="">
+    List of newsletter subscribers.
+  </div>
+  
+  <tal:block tal:condition="subscribers">
+    <form actions="subscribers.html" method="post">
+      <table class="z-listing">
+	<thead>
+	  <tr>
+	    <th></th>
+	    <th i18n:translate="">Name</th>
+	    <th i18n:translate="">E-mail</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr tal:repeat="subs subscribers"
+	      tal:attributes="class python:repeat['subs'].even() and 'even'or'odd'">
+	    <td><input type="checkbox" name="pids:list" 
+		       tal:attributes="value subs/id" /></td>
+	    <td><a tal:content="subs/title"></a></td>
+	    <td><tal:block content="subs/email" /></td>
+	  </tr>
+      </tbody>
+      </table>
+      
+      <div class="z-form-controls">
+	<input type="submit" class="z-form-button" name="forum.button.unsubscribe"
+	       value="Unsubscribe" i18n:attributes="value"/>
+      </div>
+    </form>
+  </tal:block>
+  
+  <tal:block tal:condition="not:subscribers" i18n:translate="">
+    There are no subscribers for this newsletter.
+  </tal:block>
+
+</tal:block>

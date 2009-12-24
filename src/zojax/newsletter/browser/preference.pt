@@ -1,0 +1,19 @@
+<div class="z-frame" i18n:domain="zojax.newsletter">
+  <ul class="z-listing"
+       tal:repeat="nl view/newsletters">
+    <li class="z-listing-item">
+      <a tal:content="nl/title"></a>
+      <tal:block condition="nl/subscribed">
+	(<a title="Unsubscribe from newsletter"
+	    i18n:attributes="title" i18n:translate=""
+	    tal:attributes="href string:?unsubscribe=${nl/id}">Unsubscribe</a>)
+      </tal:block>
+      <tal:block condition="not:nl/subscribed">
+	(<a title="Subscribe to newsletter" 
+	    i18n:attributes="title" i18n:translate=""
+	    tal:attributes="href string:?subscribe=${nl/id}">Subscribe</a>)
+      </tal:block>
+      <div tal:content="nl/description"></div>
+    </li>
+  </ul>
+</div>

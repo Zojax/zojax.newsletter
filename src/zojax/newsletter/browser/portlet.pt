@@ -1,0 +1,26 @@
+<div class="z-portlet">
+  <div class="z-portlet-header">
+    Newsletters
+  </div>
+  <div class="z-portlet-body">
+    <div class="z-portlet-item">
+      <form tal:attributes="action request/URL" method="post">
+	<div tal:repeat="item view/listNewsletters"
+	     tal:attributes="class python:repeat['item'].odd() and 'odd' or 'even'">
+	  <input type="checkbox" name="portlet.newsletters:list"
+		 tal:attributes="value item/id; checked item/subscription" />
+	  <span tal:content="item/title"></span>
+	</div>
+	<div style="text-align: right">
+	  <hr />
+	  <input type="submit" name="portlet.newsletters.update" 
+		 class="z-form-button" value="Update" i18n:attributes="value" />
+	</div>
+      </form>
+    </div>
+  </div>
+  <div class="z-portlet-footer">
+    <a tal:attributes="href string:${view/portal_url}/preferences/newsletters/"
+       i18n:translate="">More newsletters...</a>
+  </div>
+</div>

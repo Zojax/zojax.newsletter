@@ -1,0 +1,10 @@
+<div class="z-cp-nav" i18n:domain="zojax.newsletter">
+  <div class="z-cp-nav-item">
+    <div class="z-cp-level2">
+      <a href="+/content.newsletter/" i18n:translate="">
+	Add newsletter
+      </a>
+    </div>
+  </div>
+</div>
+<br />

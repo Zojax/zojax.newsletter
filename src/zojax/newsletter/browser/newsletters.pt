@@ -1,0 +1,1 @@
+<div class="z-topframe" tal:content="structure pagelet:content.contents"></div>

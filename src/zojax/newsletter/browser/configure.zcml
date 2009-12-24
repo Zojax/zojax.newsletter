@@ -1,0 +1,105 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:zojax="http://namespaces.zope.org/zojax"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="zojax.newsletter">
+
+  <!-- newsletters -->
+  <browser:defaultView
+     name="contents.html"
+     for="..interfaces.INewsletters" />
+
+  <zojax:pagelet
+     name="contents.html"
+     for="..interfaces.INewsletters"
+     template="newsletters.pt"
+     permission="zojax.ManageProducts" />
+
+  <browser:viewlet
+     name="newsletters.add"
+     for="..interfaces.INewsletters"
+     manager="zojax.controlpanel.browser.interfaces.IConfigletNavigation"
+     template="addnewsletter.pt"
+     permission="zope.Public" />
+
+  <!-- newsletter -->
+  <browser:defaultView
+     name="index.html"
+     for="..interfaces.INewsletter" />
+
+  <zojax:pagelet
+     name="index.html"
+     for="..interfaces.INewsletter"
+     template="newsletter.pt"
+     class=".newsletter.NewsletterView"
+     provides="zojax.content.type.interfaces.IContentView"
+     permission="zope.View" />
+
+  <zojax:pagelet
+     name="subscribers.html"
+     for="..interfaces.INewsletter"
+     template="subscribers.pt"
+     class=".subscribers.NewsletterSubscribers"
+     permission="zojax.ManageProducts" />
+
+  <browser:menuItem
+     title="Subscribers"
+     menu="zmi_views"
+     for="..interfaces.INewsletter"
+     action="subscribers.html"
+     permission="zojax.ManageProducts"
+     order="3" />
+
+  <adapter factory=".newsletter.NewsletterViewView" />
+
+  <adapter
+     for="..interfaces.INewsletter *"
+     factory="z3c.traverser.traverser.PluggableTraverser"
+     provides="zope.publisher.interfaces.IPublishTraverse" />
+
+  <subscriber
+     for="..interfaces.INewsletter *"
+     provides="z3c.traverser.interfaces.ITraverserPlugin"
+     factory=".publisher.NewsletterPublisherPlugin" />
+
+  <!-- Newsletter Entry -->
+  <zojax:pagelet
+     name="index.html"
+     for="zojax.content.content_newsletterentry"
+     class=".entry.AddNewsletterEntry"
+     permission="zojax.ManageProducts" />
+
+  <zojax:pagelet
+     name="index.html"
+     for="..interfaces.INewsletterEntry"
+     template="entry.pt"
+     permission="zope.Public" />
+
+  <browser:menuItem
+     title="Send newlsetter"
+     menu="zmi_views"
+     for="..interfaces.INewsletterEntry"
+     action="send.html"
+     permission="zojax.ManageProducts"
+     order="3" />
+
+  <zojax:pagelet
+     name="send.html"
+     for="..interfaces.INewsletterEntry"
+     template="entrysend.pt"
+     class=".entry.SendNewsletter"
+     permission="zope.Public" />
+
+  <!-- preference -->
+  <zojax:pagelet
+     name="index.html"
+     for="..interfaces.INewslettersPreference"
+     template="preference.pt"
+     class=".preference.NewslettersPreference"
+     provides="zojax.preferences.browser.interfaces.IEdit"
+     permission="zojax.ModifyPreference" />
+
+  <!-- templates -->
+  <subscriber handler=".templates.principalSubscribedEvent" />
+
+</configure>
